@@ -90,8 +90,10 @@ impl Port {
     }
 
     /// Set the read timeout. Used before `read_line` so reads don't block forever.
+    /// Pass `None` for a long default timeout (serialport expects `Duration`, not `Option`).
     pub fn set_read_timeout(&mut self, timeout: Option<Duration>) -> Result<(), PortError> {
-        self.inner.set_timeout(timeout)?;
+        self.inner
+            .set_timeout(timeout.unwrap_or(Duration::from_secs(86400)))?;
         Ok(())
     }
 
@@ -99,13 +101,13 @@ impl Port {
     /// Uses the given timeout for each read; returns `Err(PortError::Timeout(d))` if
     /// no newline is received in time.
     pub fn read_line(&mut self, timeout: Duration) -> Result<String, PortError> {
-        self.inner.set_timeout(Some(timeout))?;
+        self.inner.set_timeout(timeout)?;
         let mut buf = Vec::new();
         let mut single = [0u8; 1];
         loop {
             match self.inner.read(&mut single) {
                 Ok(0) => break,
-                Ok(1) => {
+                Ok(1..) => {
                     if single[0] == b'\n' {
                         break;
                     }

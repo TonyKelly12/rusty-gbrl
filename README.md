@@ -1,0 +1,70 @@
+# grbl-rs / MeshForge
+
+Rust CNC control library for GRBL-HAL and the MeshForge Tauri desktop app.
+
+## Library (grbl-rs)
+
+- **`machines::grbl`** — GRBL-HAL communication (parser, commands, state, port, poller, streamer, motion). Use the `serial` feature for hardware: `cargo build --features serial`.
+- **`machines::session`** — Black box recorder (probe + status logging to JSONL).
+- **`machines::profiles`** — Per-machine config (work area, steps/mm, tool library).
+
+## Tauri desktop app (MeshForge)
+
+The UI is a Tauri 2 app in `src-tauri/` with a static frontend in `ui/`.
+
+### Run the app
+
+1. **Install dependencies**
+   - **Rust:** [rustup](https://rustup.rs)
+   - **Node.js:** for `npm run tauri dev` (serves the frontend)
+   - **Linux (WSL2 or native):** Tauri needs the GTK/WebKit stack; serial needs pkg-config and libudev. From the repo root run:
+     ```bash
+     chmod +x scripts/setup-linux-deps.sh && ./scripts/setup-linux-deps.sh
+     ```
+     Or install manually:
+     ```bash
+     sudo apt install -y libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev \
+       libayatana-appindicator3-dev librsvg2-dev pkg-config libudev-dev
+     ```
+   - **Windows:** no extra deps for serial; ensure a driver for your USB–serial adapter
+
+2. **Install frontend tooling (once)**
+   ```bash
+   npm install
+   ```
+
+3. **Development**
+   ```bash
+   npm run dev
+   ```
+   This starts a static server for `ui/` and opens the Tauri window. Use **Refresh ports** to list serial ports (from grbl-rs).
+
+4. **Production build**
+   ```bash
+   npm run build
+   ```
+   Output is in `src-tauri/target/release/` (or `target/release/bundle/` for installers).
+
+### Project layout
+
+```
+grbl-rs/
+├── src/                 # Library: machines/grbl, session, profiles
+├── src-tauri/           # Tauri app (depends on grbl-rs with "serial" feature)
+│   ├── src/lib.rs       # Commands: list_serial_ports, etc.
+│   └── capabilities/
+├── ui/                  # Static frontend (HTML + JS, no bundler)
+│   ├── index.html
+│   └── main.js
+├── Cargo.toml           # grbl-rs library
+├── package.json         # npm scripts for Tauri CLI
+└── README.md
+```
+
+## Hardware
+
+Target machine: Genmitsu PROVerXL 4030, BTT Octopus Pro V1.1, GRBL-HAL. USB at 115200 baud.
+
+## License
+
+Private / MeshForge.

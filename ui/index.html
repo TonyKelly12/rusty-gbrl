@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeshForge CNC</title>
+  <style>
+    :root {
+      --bg: #1a1b26;
+      --surface: #24283b;
+      --text: #c0caf5;
+      --accent: #7aa2f7;
+      --muted: #565f89;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    h1 { font-size: 1.5rem; margin-top: 0; color: var(--accent); }
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      max-width: 480px;
+    }
+    .card h2 { font-size: 0.9rem; margin: 0 0 0.5rem 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    button {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button:hover { filter: brightness(1.1); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    #ports { list-style: none; padding: 0; margin: 0.5rem 0 0 0; }
+    #ports li { padding: 0.35rem 0; border-bottom: 1px solid var(--muted); font-family: ui-monospace, monospace; font-size: 0.9rem; }
+    #ports li:last-child { border-bottom: none; }
+    .error { color: #f7768e; }
+  </style>
+</head>
+<body>
+  <h1>MeshForge CNC</h1>
+  <div class="card">
+    <h2>Serial ports</h2>
+    <button id="refresh" type="button">Refresh ports</button>
+    <ul id="ports" aria-live="polite"></ul>
+    <p id="ports-error" class="error" hidden></p>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

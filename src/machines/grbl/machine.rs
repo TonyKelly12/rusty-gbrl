@@ -79,7 +79,7 @@ impl GrblMachine {
     /// Disconnect: stop the poller and close the port.
     pub async fn disconnect(self) {
         self.poller_handle.abort();
-        let _ = self.poller_handle.await;
+        // Cannot move poller_handle out (GrblMachine implements Drop). Abort is enough; Drop will run on exit.
         info!("GrblMachine disconnected");
     }
 

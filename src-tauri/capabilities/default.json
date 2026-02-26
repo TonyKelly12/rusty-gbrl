@@ -1,0 +1,10 @@
+{
+  "identifier": "main-capability",
+  "description": "Main window: default core permissions and app commands",
+  "windows": ["*"],
+  "permissions": [
+    "core:window:default",
+    "core:app:default",
+    "core:event:default"
+  ]
+}

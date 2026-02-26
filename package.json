@@ -1,0 +1,14 @@
+{
+  "name": "meshforge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MeshForge CNC control — Tauri desktop app",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
