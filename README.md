@@ -10,13 +10,13 @@ Rust CNC control library for GRBL-HAL and the MeshForge Tauri desktop app.
 
 ## Tauri desktop app (MeshForge)
 
-The UI is a Tauri 2 app in `src-tauri/` with a static frontend in `ui/`.
+The UI is a Tauri 2 app in `src-tauri/` with an **Angular 19** frontend in `angular-ui/`. (The original vanilla HTML/JS UI is still in `ui/` for reference; Tauri is configured to use Angular.)
 
 ### Run the app
 
 1. **Install dependencies**
    - **Rust:** [rustup](https://rustup.rs)
-   - **Node.js:** for `npm run tauri dev` (serves the frontend)
+   - **Node.js:** for `npm run tauri dev` and the Angular app
    - **Linux (WSL2 or native):** Tauri needs the GTK/WebKit stack; serial needs pkg-config and libudev. From the repo root run:
      ```bash
      chmod +x scripts/setup-linux-deps.sh && ./scripts/setup-linux-deps.sh
@@ -28,16 +28,18 @@ The UI is a Tauri 2 app in `src-tauri/` with a static frontend in `ui/`.
      ```
    - **Windows:** no extra deps for serial; ensure a driver for your USB–serial adapter
 
-2. **Install frontend tooling (once)**
+2. **Install frontend tooling (once)**  
+   Node.js **18.19+** is required for the Angular app. Then:
    ```bash
    npm install
+   cd angular-ui && npm install && cd ..
    ```
 
 3. **Development**
    ```bash
    npm run dev
    ```
-   This starts a static server for `ui/` and opens the Tauri window. Use **Refresh ports** to list serial ports (from grbl-rs).
+   Starts the Angular dev server (port 4200) and opens the Tauri window. Use **Refresh ports** and (in mock mode) **Refresh status**.
 
    **Test without hardware (mock API):**
    ```bash
@@ -49,7 +51,7 @@ The UI is a Tauri 2 app in `src-tauri/` with a static frontend in `ui/`.
    ```bash
    npm run build
    ```
-   Output is in `src-tauri/target/release/` (or `target/release/bundle/` for installers).
+   Builds the Angular app, then the Tauri app. Output is in `src-tauri/target/release/` (or `target/release/bundle/` for installers).
 
 ### Project layout
 
@@ -57,11 +59,12 @@ The UI is a Tauri 2 app in `src-tauri/` with a static frontend in `ui/`.
 grbl-rs/
 ├── src/                 # Library: machines/grbl, session, profiles
 ├── src-tauri/           # Tauri app (depends on grbl-rs with "serial" feature)
-│   ├── src/lib.rs       # Commands: list_serial_ports, etc.
+│   ├── src/lib.rs       # Commands: list_serial_ports, get_mock_status, etc.
 │   └── capabilities/
-├── ui/                  # Static frontend (HTML + JS, no bundler)
-│   ├── index.html
-│   └── main.js
+├── angular-ui/          # Angular 19 frontend (default for Tauri)
+│   ├── src/app/         # Components, TauriService
+│   └── package.json
+├── ui/                  # Legacy vanilla frontend (HTML + JS)
 ├── Cargo.toml           # grbl-rs library
 ├── package.json         # npm scripts for Tauri CLI
 └── README.md

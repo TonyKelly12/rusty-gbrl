@@ -1,0 +1,34 @@
+{
+  "hash": "94fca4a4",
+  "configHash": "97976747",
+  "lockfileHash": "c8320dcc",
+  "browserHash": "035d354c",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "53e2553c",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "62c5fa8f",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "4fa57f7d",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-PQK6CZN4": {
+      "file": "chunk-PQK6CZN4.js"
+    },
+    "chunk-PVAZ43V2": {
+      "file": "chunk-PVAZ43V2.js"
+    }
+  }
+}

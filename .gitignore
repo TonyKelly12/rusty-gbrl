@@ -1,3 +1,5 @@
 /target
 /node_modules
+angular-ui/node_modules
+angular-ui/dist
 src-tauri/target
