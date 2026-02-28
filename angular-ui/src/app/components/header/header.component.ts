@@ -1,41 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PortService } from '../../features';
+import { PortSelectComponent } from '../port-select/port-select.component';
+import { MachineStateDisplayComponent } from '../machine-state-display/machine-state-display.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PortSelectComponent, MachineStateDisplayComponent],
   template: `
     <header class="app-header">
       <div class="header-left">
         <span class="app-icon" aria-hidden="true">&#9881;</span>
-        <div class="port-select-wrap">
-          <select
-            class="port-select"
-            [value]="selectedPort()?.name ?? ''"
-            (change)="onPortChange($event)"
-            [disabled]="portsLoading()"
-            title="Select serial port"
-            aria-label="Serial port"
-          >
-            <option value="" disabled>Select port…</option>
-            @for (p of portsList(); track p.name) {
-              <option [value]="p.name">{{ p.title || p.name }}</option>
-            }
-          </select>
-          @if (selectedDisplay()) {
-            <span class="controller-label">grbHAL</span>
-          }
-        </div>
-        @if (portsError()) {
-          <span class="header-error" title="{{ portsError() }}">Connection error</span>
-        }
+        <app-port-select></app-port-select>
+      </div>
+      <div class="header-center">
+        <app-machine-state-display></app-machine-state-display>
       </div>
     </header>
   `,
   styles: [`
     .app-header {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -53,62 +38,11 @@ import { PortService } from '../../features';
       font-size: 1.25rem;
       opacity: 0.9;
     }
-    .port-select-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .port-select {
-      background: var(--bg, #1a1b26);
-      color: var(--text, #c0caf5);
-      border: 1px solid var(--muted, #565f89);
-      border-radius: 6px;
-      padding: 0.35rem 0.6rem;
-      font-size: 0.9rem;
-      min-width: 120px;
-      cursor: pointer;
-    }
-    .port-select:disabled {
-      opacity: 0.7;
-      cursor: wait;
-    }
-    .controller-label {
-      font-size: 0.8rem;
-      color: var(--muted, #565f89);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .header-error {
-      font-size: 0.8rem;
-      color: #f7768e;
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
   `],
 })
-export class HeaderComponent implements OnInit {
-  portsList = this.portService.portsList;
-  portsLoading = this.portService.portsLoading;
-  portsError = this.portService.portsError;
-  selectedDisplay = this.portService.selectedDisplay;
-  selectedPort = this.portService.selectedPort;
-
-  constructor(private portService: PortService) {}
-
-  ngOnInit(): void {
-    this.portService.refreshPorts().then((list) => {
-      const current = this.portService.selectedPort();
-      if (!current || !list.some((p) => p.name === current.name)) {
-        if (list.length > 0) {
-          this.portService.setSelected(list[0]);
-        }
-      }
-    });
-  }
-
-  onPortChange(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const name = select.value;
-    if (!name) return;
-    const port = this.portService.portsList().find((p) => p.name === name) ?? null;
-    this.portService.setSelected(port);
-  }
-}
+export class HeaderComponent {}

@@ -1,37 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TauriService, MockStatusDto } from './core';
-import { HeaderComponent } from './components';
+import { HeaderComponent, MachineCoordinatesPanelComponent } from './components';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, MachineCoordinatesPanelComponent],
   template: `
     <app-header></app-header>
 
     <main class="main-content">
-      @if (mockMode) {
-        <div class="card" id="mock-banner">
-          <h2>Demo mode</h2>
-          <p style="margin:0; font-size: 0.9rem;">
-            Running with <code>MESHFORGE_MOCK=1</code>. Ports and status are fake — no machine connected.
-          </p>
-        </div>
-      }
+      <div class="main-body">
+        <div class="main-body-left">
+          @if (mockMode) {
+            <div class="card" id="mock-banner">
+              <h2>Demo mode</h2>
+              <p style="margin:0; font-size: 0.9rem;">
+                Running with <code>MESHFORGE_MOCK=1</code>. Ports and status are fake — no machine connected.
+              </p>
+            </div>
+          }
 
-      @if (mockMode) {
-        <div class="card" id="status-card">
-          <h2>Machine status (mock)</h2>
-          <p class="status-text">{{ statusText }}</p>
-          <button type="button" (click)="refreshStatus()" style="margin-top: 0.5rem;">Refresh status</button>
+          @if (mockMode) {
+            <div class="card" id="status-card">
+              <h2>Machine status (mock)</h2>
+              <p class="status-text">{{ statusText }}</p>
+              <button type="button" (click)="refreshStatus()" style="margin-top: 0.5rem;">Refresh status</button>
+            </div>
+          }
         </div>
-      }
+        <aside class="main-body-right">
+          <app-machine-coordinates-panel></app-machine-coordinates-panel>
+        </aside>
+      </div>
     </main>
   `,
   styles: [`
     .main-content {
       padding: 1rem 1.25rem;
+      min-height: calc(100vh - 48px);
+    }
+    .main-body {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .main-body-left {
+      flex: 1;
+      min-width: 0;
+    }
+    .main-body-right {
+      flex-shrink: 0;
     }
   `],
 })
