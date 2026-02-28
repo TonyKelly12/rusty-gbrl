@@ -17,3 +17,8 @@ export type { SliderColor } from './slider/slider.component';
 export { JobCommandComponent } from './job-command/job-command.component';
 export type { JobCommandAction } from './job-command/job-command.component';
 export { JobConfigComponent } from './job-config/job-config.component';
+export { FileCommandComponent } from './file-command/file-command.component';
+export type { FileCommandAction } from './file-command/file-command.component';
+export { FileInformationComponent } from './file-information/file-information.component';
+export type { FileInfoView, FileBounds } from './file-information/file-information.component';
+export { FileLoadComponent } from './file-load/file-load.component';

@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TauriService, MockStatusDto } from './core';
-import { HeaderComponent, MachineCoordinatesPanelComponent, GcodeVisualizerComponent, JogControlsComponent, JobConfigComponent } from './components';
+import { HeaderComponent, MachineCoordinatesPanelComponent, GcodeVisualizerComponent, JogControlsComponent, JobConfigComponent, FileLoadComponent } from './components';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, MachineCoordinatesPanelComponent, GcodeVisualizerComponent, JogControlsComponent, JobConfigComponent],
+  imports: [CommonModule, HeaderComponent, MachineCoordinatesPanelComponent, GcodeVisualizerComponent, JogControlsComponent, JobConfigComponent, FileLoadComponent],
   template: `
     <app-header></app-header>
 
     <main class="main-content">
       <div class="main-body">
         <div class="main-body-left">
+          <app-file-load></app-file-load>
           @if (mockMode) {
             <div class="card" id="mock-banner">
               <h2>Demo mode</h2>
