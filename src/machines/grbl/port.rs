@@ -29,7 +29,7 @@
 /// TODO Add connection monitoring and logging
 /// 
 
-#![cfg(feature = "serial")]
+#[cfg(feature = "serial")]
 
 use std::io::{Read, Write};
 use std::time::Duration;
